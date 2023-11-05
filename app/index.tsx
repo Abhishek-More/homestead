@@ -49,9 +49,7 @@ export default function App() {
               className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
               onPress={() => goToStatic()}
             >
-              <Text className="text-center text-black">
-                View Prebuilt Analytics
-              </Text>
+              <Text className="text-center text-black">View Trends</Text>
             </Pressable>
             <Pressable
               className="py-4 px-3 border mx-8 mt-4 border-[#6C63FF] rounded-md bg-[#6C63FF]"
@@ -59,6 +57,12 @@ export default function App() {
             >
               <Text className="text-white text-center">Enter Metrics</Text>
             </Pressable>
+
+            <Link className="mt-4 bg-white" href="/resources">
+              <Text className="text-center text-black">
+                Need help? Check our resources!
+              </Text>
+            </Link>
           </View>
         </SafeAreaView>
         <StatusBar style="auto" />
