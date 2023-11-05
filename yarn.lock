@@ -1973,7 +1973,7 @@
   resolved "https://registry.yarnpkg.com/@react-native/normalize-colors/-/normalize-colors-0.72.0.tgz#14294b7ed3c1d92176d2a00df48456e8d7d62212"
   integrity sha512-285lfdqSXaqKuBbbtP9qL2tDrfxdOFtIMvkKadtleRQkdOxx+uzGvFr82KHmc/sSiMtfXGp7JnFYWVh4sFl7Yw==
 
-"@react-native/virtualized-lists@^0.72.8":
+"@react-native/virtualized-lists@^0.72.4", "@react-native/virtualized-lists@^0.72.8":
   version "0.72.8"
   resolved "https://registry.yarnpkg.com/@react-native/virtualized-lists/-/virtualized-lists-0.72.8.tgz#a2c6a91ea0f1d40eb5a122fb063daedb92ed1dc3"
   integrity sha512-J3Q4Bkuo99k7mu+jPS9gSUSgq+lLRSI/+ahXNwV92XgJ/8UgOTxu2LPwhJnBk/sQKxq7E8WkZBnBiozukQMqrw==
@@ -2255,6 +2255,14 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.6.tgz#7cb33992049fd7340d5b10c0098e104184dfcd2a"
   integrity sha512-+0autS93xyXizIYiyL02FCY8N+KkKPhILhcUSA276HxzreZ16kl+cmwvV2qAM/PuCCwPXzOXOWhiPcw20uSFcA==
 
+"@types/react-native-simple-radio-button@^2.7.5":
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.5.tgz#7cbd24b7fddb04bbac46054d0a55967b7ecacbb8"
+  integrity sha512-X7PvYBniP8KK5jDK2V1OmlaLUyosM2QclvDRJ/xGWf1OsYLkk9IaR37X7O3Ckqwa9PqN9Kl0Z086TSfut/IZ5g==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-vector-icons@^6.4.16":
   version "6.4.16"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.16.tgz#879aeb05846d539353d5c571b40cbbfd96c29223"
@@ -2262,6 +2270,14 @@
   dependencies:
     "@types/react" "*"
     "@types/react-native" "^0.70"
+
+"@types/react-native@*":
+  version "0.72.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.72.5.tgz#33a0d0c3c724395ee05bb37255937dcb3fae6d5f"
+  integrity sha512-HAt+EC576kbyg3+qruzbOLgVhgDHTHJ3d3rTkWRJ0wukze+l3ldWUkh1IarERHqsUlWwmkuYu0+4TQE5y1EjwA==
+  dependencies:
+    "@react-native/virtualized-lists" "^0.72.4"
+    "@types/react" "*"
 
 "@types/react-native@^0.70":
   version "0.70.16"
@@ -7461,6 +7477,11 @@ react-native-screens@~3.22.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-simple-radio-button@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.4.tgz#86e2dbe8af9e6bf60eee088f60466f7a975e7758"
+  integrity sha512-QOZNmJUn0ViBGU+at7wAG/uGzd5PfXi0kMHr9lfTCLXknW/f9f2fOVjxjdHvOCdf/zA/eMJBjGjtusSDzQf1+w==
 
 react-native-svg@13.9.0:
   version "13.9.0"
