@@ -6,6 +6,7 @@ import { Image } from "react-native";
 import { Callout } from "react-native-maps";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import LottieView from "lottie-react-native";
 
 import * as Location from "expo-location";
 import BackButton from "../components/BackButton";
@@ -104,7 +105,21 @@ export default function App() {
       <Text className="text-xl font-medium absolute flex justify-center w-full text-center">
         Nearby Houses
       </Text>
-      {!location && <Text>Loading...</Text>}
+      {!location && (
+        <View className="">
+          <LottieView
+            autoPlay
+            style={{
+              width: 200,
+              height: 200,
+              backgroundColor: "fff",
+            }}
+            // Find more Lottie files at https://lottiefiles.com/featured
+            source={require("../assets/loading.json")}
+            loop
+          />
+        </View>
+      )}
       {location && respData && (
         <MapView
           showsUserLocation

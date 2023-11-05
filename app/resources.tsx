@@ -62,7 +62,7 @@ export default function App() {
                 />
                 <View className="">
                   <Text className="text-xl font-medium">
-                    Increase your credit score fast!
+                    How does credit score work?
                   </Text>
                   <Text className="text-md font-medium">
                     NerdWallet - 9 minute read
@@ -98,7 +98,7 @@ export default function App() {
 
             <View className="my-6 h-[2px] bg-black opacity-10"></View>
 
-            <Link href="">
+            <Link href="https://www.cnbc.com/select/how-to-calculate-debt-to-income-ratio-for-mortgage/">
               <View className="flex flex-col gap-2">
                 <Image
                   source={{
@@ -116,6 +116,31 @@ export default function App() {
                   </Text>
                   <Text className="text-md font-medium">
                     CNBC - 6 minute read
+                  </Text>
+                </View>
+              </View>
+            </Link>
+
+            <View className="my-6 h-[2px] bg-black opacity-10"></View>
+
+            <Link href="https://www.rocketmortgage.com/learn/how-to-get-a-mortgage">
+              <View className="flex flex-col gap-2">
+                <Image
+                  source={{
+                    uri: "https://www.rocketmortgage.com/resources-cmsassets/RocketMortgage.com/Article_Images/Large_Images/New%20Images/Stock-FamilyMovingInHome-AdobeStock-236073349-copy.jpeg",
+                  }}
+                  style={{
+                    width: Dimensions.get("window").width - 48,
+                    height: 200,
+                    borderRadius: 10,
+                  }}
+                />
+                <View className="">
+                  <Text className="text-xl font-medium">
+                    How to get a mortgage
+                  </Text>
+                  <Text className="text-md font-medium">
+                    RocketMortgage - 8 minute read
                   </Text>
                 </View>
               </View>
