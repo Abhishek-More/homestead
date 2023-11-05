@@ -98,7 +98,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View className="mx-4">
+      <View className="mx-4 z-50">
         <BackButton />
       </View>
       <Text className="text-xl font-medium absolute flex justify-center w-full text-center">
