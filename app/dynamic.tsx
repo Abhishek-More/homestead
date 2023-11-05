@@ -202,6 +202,12 @@ export default function App() {
         metricValues[metricName];
     }
 
+    if (whatShouldIChange === "Credit Score" || whatShouldIChange === "Down Payment") {
+      setResponseData({ suggestion: "This has not been implemented yet :)" });
+      setLoading(false);
+      return;
+    }
+
     const response = await fetch(
       "https://homestead-backend-production.up.railway.app/reverse-engineer",
       {
