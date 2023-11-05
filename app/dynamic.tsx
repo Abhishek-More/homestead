@@ -3,7 +3,7 @@ import { Button, Pressable, SafeAreaView, Text, View, ScrollView } from "react-n
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
-import { useFonts, Inter_700Bold } from "@expo-google-fonts/inter";
+import { useFonts, Inter_700Bold, Inter_400Regular } from "@expo-google-fonts/inter";
 import { Dimensions } from "react-native";
 import { Link } from "expo-router";
 
@@ -94,7 +94,7 @@ export default function App() {
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [whatShouldIChange, setWhatShouldIChange] = useState("Gross Monthly Income");  // 0 = income, 1 = appraised value, 2 = down payment, 3 = credit score
-  const [lastFetched, setLastFetched] = useState("approval");
+  const [lastFetched, setLastFetched] = useState("none");
   const [responseData, setResponseData] = useState({});
   const [metricValues, setMetricValues] = useState({
     "Gross Monthly Income": METRICS["Gross Monthly Income"].default_value,
@@ -109,6 +109,7 @@ export default function App() {
   });
 
   let [fontsLoaded, fontError] = useFonts({
+    Inter_400Regular,
     Inter_700Bold,
   });
 
@@ -133,6 +134,27 @@ export default function App() {
       }),
     });
     const data = await response.json();
+    data.reasonsForRejection = [];
+    if (data["credit_score_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Credit Score");
+    }
+    if (data["ltv_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Loan-to-Value Ratio");
+    }
+    if (data["dti_43_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Debt-to-Income");
+    }
+    if (data["dti_36_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Debt-to-Income");
+    }
+    if (data["fedti_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Front-End Debt-to-Income");
+    }
     setResponseData(data);
     setLoading(false);
   }
@@ -154,7 +176,9 @@ export default function App() {
         "change": METRICS[whatShouldIChange].parameter_name,
       }),
     });
-    const data = await response.text();
+    const data = {
+      "suggestion": await response.text()
+    };
     setResponseData(data);
     setLoading(false);
   }
@@ -232,9 +256,39 @@ export default function App() {
             }
           </Pressable>
 
-          <HR />
+          <View className="my-6">
+            <HR />
+          </View>
 
-          <Text>{JSON.stringify(responseData)}</Text>
+          {
+            lastFetched === "approval" && !loading ? (
+              <View className="mb-10">
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Prediction:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.approved.value === "Y" ? "text-green-500" : "text-red-500")}>{responseData.approved.value === "Y" ? "Approved" : "Not Approved"}</Text>
+
+                {responseData.approved.value === "N" && <View>
+                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Reason{responseData.reasonsForRejection.length === 1 ? "" : "s"}:</Text>
+                  <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.reasonsForRejection.join(", ")}</Text>
+                </View> }      
+
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Loan-To-Value:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.ltv_check.value === 1 ? "text-red-500" : "")}>{responseData.LTV.value}</Text>
+       
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Debt-To-Income:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.dti_43_check.value === 1 || responseData.dti_36_check.value === 1 ? "text-red-500" : "")}>{responseData.DTI.value}</Text>
+
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Front-End Debt-To-Income:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.fedti_check.value === 1 ? "text-red-500" : "")}>{responseData.FEDTI.value}</Text>
+              </View>
+            )
+            : <></>
+          }
+          {
+            lastFetched === "improvements" && !loading ? (
+              <Text style={{ fontFamily: "Inter_400Regular", fontSize: 20 }} className="mb-10">{responseData.suggestion}</Text>
+            )
+            : <></>
+          }
         
         </SafeAreaView>
         <StatusBar style="auto" />
