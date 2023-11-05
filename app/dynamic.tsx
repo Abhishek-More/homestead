@@ -17,10 +17,13 @@ import {
 import BackButton from "../components/BackButton";
 import SliderBox from "../components/SliderBox";
 import { useState } from "react";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function App() {
   const [openSliderIndex, setOpenSliderIndex] = useState(-1);
   const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [responseData, setResponseData] = useState({});
   const [metricValues, setMetricValues] = useState({
     "Gross Monthly Income": 0,
     "Credit Card Payment": 0,
@@ -41,8 +44,24 @@ export default function App() {
     return null;
   }
 
-  function runner() {
-    console.log("HI");
+  async function fetchData() {
+    setLoading(true);
+    const requestData = {};
+    for (const metricName in metricValues) {
+      requestData[METRICS[metricName].parameter_name] = metricValues[metricName];
+    }
+
+    const response = await fetch("https://homestead-backend-production.up.railway.app/run-one", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({"value": requestData}),
+    });
+    // const data = await response.json();
+    const data = await response.text();
+    setResponseData(data);
+    setLoading(false);
   }
 
   const METRICS = {
@@ -185,25 +204,37 @@ export default function App() {
           <Text>DYNAMIC</Text>
           <Text className="mb-10">DYNAMIC {openSliderIndex}</Text>
 
-          {Object.keys(METRICS).map((metricName, index) => {
-              const metric = METRICS[metricName];
-              return (
-                <SliderBox
-                key={index}
-                name={metricName}
-                isOpen={openSliderIndex === index}
-                onPress={() => setOpenSliderIndex(index === openSliderIndex ? -1 : index)}
-                maxValue={metric.max_value}
-                minValue={metric.min_value}
-                step={metric.step}
-                onValueChange={(value) => {setMetricValues({...metricValues, [metric.parameter_name]: value})}}
-                setScrollEnabled={setScrollEnabled}
-                lessThanGreaterThan={metric.dollars}
-                dollars={metric.dollars}
-                />
-              )
-            })}
-        <Text>{JSON.stringify(metricValues)}</Text>
+          <View>
+            {Object.keys(METRICS).map((metricName, index) => {
+                const metric = METRICS[metricName];
+                return (
+                  <SliderBox
+                  key={index}
+                  name={metricName}
+                  isOpen={openSliderIndex === index}
+                  onPress={() => setOpenSliderIndex(index === openSliderIndex ? -1 : index)}
+                  maxValue={metric.max_value}
+                  minValue={metric.min_value}
+                  step={metric.step}
+                  onValueChange={(value) => {setMetricValues({...metricValues, [metric.parameter_name]: value})}}
+                  setScrollEnabled={setScrollEnabled}
+                  lessThanGreaterThan={metric.dollars}
+                  dollars={metric.dollars}
+                  />
+                )
+              })}
+          </View>
+
+          <Pressable className="py-4 px-3 border mx-8 mt-4 border-[#6C63FF] rounded-md bg-[#6C63FF]" onPress={() => {fetchData()}}>
+            {
+              loading ? 
+              <Text style={{ fontFamily: "Inter_700Bold", fontSize: 20 }} className="text-white text-center">Loading...</Text>
+              : <Text style={{ fontFamily: "Inter_700Bold", fontSize: 20 }} className="text-white text-center">Calculate</Text>
+            }
+          </Pressable>
+
+          <Text>{JSON.stringify(responseData)}</Text>
+        
         </SafeAreaView>
         <StatusBar style="auto" />
       </SafeAreaProvider>
