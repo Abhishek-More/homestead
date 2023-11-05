@@ -182,7 +182,7 @@ export default function App() {
       promptReasons.push("fedt");
     }
     data.aiSuggestion = "Loading...";
-    fetchAiSuggestion(promptReasons);
+    // fetchAiSuggestion(promptReasons);
     setResponseData(data);
     setLoading(false);
   }
@@ -298,8 +298,8 @@ export default function App() {
                   <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Reason{responseData.reasonsForRejection.length === 1 ? "" : "s"}:</Text>
                   <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.reasonsForRejection.join(", ")}</Text>
                 
-                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>AI Suggestion:</Text>
-                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.aiSuggestion}</Text>
+                  {/* <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>AI Suggestion:</Text>
+                  <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.aiSuggestion}</Text> */}
                 </View> }      
 
                 <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Loan-To-Value:</Text>
