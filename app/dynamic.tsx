@@ -188,7 +188,7 @@ export default function App() {
       promptReasons.push("fedt");
     }
     data.aiSuggestion = "Loading...";
-    fetchAiSuggestion(promptReasons);
+    // fetchAiSuggestion(promptReasons);
     setResponseData(data);
     console.log(data);
     setLoading(false);
@@ -452,86 +452,33 @@ export default function App() {
                   : "Not Approved"}
               </Text>
 
-              {responseData.approved.value === "N" && (
-                <View>
-                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>
-                    Reason
-                    {responseData.reasonsForRejection.length === 1 ? "" : "s"}:
-                  </Text>
-                  <Text
-                    style={{ fontFamily: "Inter_400Regular", fontSize: 30 }}
-                    className={"text-right mb-8 "}
-                  >
-                    {responseData.reasonsForRejection.join(", ")}
-                  </Text>
+                {responseData.approved.value === "N" && <View>
+                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Reason{responseData.reasonsForRejection.length === 1 ? "" : "s"}:</Text>
+                  <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.reasonsForRejection.join(", ")}</Text>
+                
+                  {/* <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>AI Suggestion:</Text>
+                  <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.aiSuggestion}</Text> */}
+                </View> }      
 
-                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>
-                    AI Suggestion:
-                  </Text>
-                  <Text
-                    style={{ fontFamily: "Inter_400Regular", fontSize: 30 }}
-                    className={"text-right mb-8 "}
-                  >
-                    {responseData.aiSuggestion}
-                  </Text>
-                </View>
-              )}
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Loan-To-Value:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.ltv_check.value === 1 ? "text-red-500" : "")}>{responseData.LTV.value}</Text>
+       
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Debt-To-Income:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.dti_43_check.value === 1 || responseData.dti_36_check.value === 1 ? "text-red-500" : "")}>{responseData.DTI.value}</Text>
 
-              <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>
-                Loan-To-Value:
-              </Text>
-              <Text
-                style={{ fontFamily: "Inter_400Regular", fontSize: 30 }}
-                className={
-                  "text-right mb-8 " +
-                  (responseData.ltv_check.value === 1 ? "text-red-500" : "")
-                }
-              >
-                {responseData.LTV.value}
-              </Text>
-
-              <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>
-                Debt-To-Income:
-              </Text>
-              <Text
-                style={{ fontFamily: "Inter_400Regular", fontSize: 30 }}
-                className={
-                  "text-right mb-8 " +
-                  (responseData.dti_43_check.value === 1 ||
-                  responseData.dti_36_check.value === 1
-                    ? "text-red-500"
-                    : "")
-                }
-              >
-                {responseData.DTI.value}
-              </Text>
-
-              <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>
-                Front-End Debt-To-Income:
-              </Text>
-              <Text
-                style={{ fontFamily: "Inter_400Regular", fontSize: 30 }}
-                className={
-                  "text-right mb-8 " +
-                  (responseData.fedti_check.value === 1 ? "text-red-500" : "")
-                }
-              >
-                {responseData.FEDTI.value}
-              </Text>
-            </View>
-          ) : (
-            <></>
-          )}
-          {lastFetched === "improvements" && !loading ? (
-            <Text
-              style={{ fontFamily: "Inter_400Regular", fontSize: 20 }}
-              className="mb-10"
-            >
-              {responseData.suggestion}
-            </Text>
-          ) : (
-            <></>
-          )}
+                <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Front-End Debt-To-Income:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 " + (responseData.fedti_check.value === 1 ? "text-red-500" : "")}>{responseData.FEDTI.value}</Text>
+              </View>
+            )
+            : <></>
+          }
+          {
+            lastFetched === "improvements" && !loading ? (
+              <Text style={{ fontFamily: "Inter_400Regular", fontSize: 20 }} className="mb-10">{responseData.suggestion}</Text>
+            )
+            : <></>
+          }
+        
         </SafeAreaView>
         <StatusBar style="auto" />
       </SafeAreaProvider>
