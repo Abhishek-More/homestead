@@ -20,6 +20,18 @@ import { useState } from "react";
 
 export default function App() {
   const [openSliderIndex, setOpenSliderIndex] = useState(-1);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [metricValues, setMetricValues] = useState({
+    "Gross Monthly Income": 0,
+    "Credit Card Payment": 0,
+    "Car Payment": 0,
+    "Student Loan Payments": 0,
+    "Appraised Value": 0,
+    "Down Payment": 1000,
+    "Loan Amount": 1000,
+    "Monthly Mortgage Payment": 10,
+    "Credit Score": 300,
+  });
 
   let [fontsLoaded, fontError] = useFonts({
     Inter_700Bold,
@@ -33,21 +45,75 @@ export default function App() {
     console.log("HI");
   }
 
-  const METRICS = [
-    "Gross Monthly Income",
-    "Credit Card Payment",
-    "Car Payment",
-    "Student Loan Payments",
-    "Appraised Value",
-    "Down Payment",
-    "Loan Amount",
-    "Monthly Mortgage Payment",
-    "Credit Score",
-  ];
+  const METRICS = {
+    "Gross Monthly Income": {
+      parameter_name: "gross_monthly_income",
+      max_value: 100000,
+      min_value: 0,
+      step: 100,
+      dollars: true,
+    },
+    "Credit Card Payment": {
+      parameter_name: "credit_card_payment",
+      max_value: 100000,
+      min_value: 0,
+      step: 100,
+      dollars: true,
+    },
+    "Car Payment": {
+      parameter_name: "car_payment",
+      max_value: 10000,
+      min_value: 0,
+      step: 100,
+      dollars: true,
+    },
+    "Student Loan Payments": {
+      parameter_name: "student_loan_payment",
+      max_value: 10000,
+      min_value: 0,
+      step: 100,
+      dollars: true,
+    },
+    "Appraised Value": {
+      parameter_name: "appraised_value",
+      max_value: 10000000,
+      min_value: 0,
+      step: 1000,
+      dollars: true,
+    },
+    "Down Payment": {
+      parameter_name: "down_payment",
+      max_value: 1000000,
+      min_value: 100,
+      step: 1000,
+      dollars: true,
+    },
+    "Loan Amount": {
+      parameter_name: "loan_amount",
+      max_value: 1000000,
+      min_value: 100,
+      step: 1000,
+      dollars: true,
+    },
+    "Monthly Mortgage Payment": {
+      parameter_name: "monthly_mortgage_payment",
+      max_value: 10000,
+      min_value: 10,
+      step: 100,
+      dollars: true,
+    },
+    "Credit Score": {
+      parameter_name: "credit_score",
+      max_value: 850,
+      min_value: 300,
+      step: 1,
+      dollars: false,
+    }
+  };
 
 
   return (
-    <ScrollView className="h-screen">
+    <ScrollView className="h-screen" scrollEnabled={scrollEnabled}>
       <SafeAreaProvider>
         <SafeAreaView className="h-full mx-4">
           <BackButton />
@@ -119,21 +185,25 @@ export default function App() {
           <Text>DYNAMIC</Text>
           <Text className="mb-10">DYNAMIC {openSliderIndex}</Text>
 
-          {METRICS.map((metric, index) => {
+          {Object.keys(METRICS).map((metricName, index) => {
+              const metric = METRICS[metricName];
               return (
                 <SliderBox
                 key={index}
-                name={metric}
+                name={metricName}
                 isOpen={openSliderIndex === index}
                 onPress={() => setOpenSliderIndex(index === openSliderIndex ? -1 : index)}
-                maxValue={100}
-                minValue={0}
-                step={1}
-                onValueChange={() => {}}
+                maxValue={metric.max_value}
+                minValue={metric.min_value}
+                step={metric.step}
+                onValueChange={(value) => {setMetricValues({...metricValues, [metric.parameter_name]: value})}}
+                setScrollEnabled={setScrollEnabled}
+                lessThanGreaterThan={metric.dollars}
+                dollars={metric.dollars}
                 />
               )
             })}
-
+        <Text>{JSON.stringify(metricValues)}</Text>
         </SafeAreaView>
         <StatusBar style="auto" />
       </SafeAreaProvider>
