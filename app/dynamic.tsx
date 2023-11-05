@@ -117,6 +117,26 @@ export default function App() {
     return null;
   }
 
+  async function fetchAiSuggestion(reasons) {
+    const response = await fetch("https://homestead-backend-production.up.railway.app/get-suggestion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "factors": reasons,
+      }),
+    });
+    const data = {
+      "suggestion": await response.text()
+    };
+    if (lastFetched === "approval") {
+      const newResponseData = {...responseData};
+      newResponseData.aiSuggestion = data.suggestion;
+      setResponseData(newResponseData);
+    }
+  }
+
   async function fetchApproval() {
     setLoading(true);
     const requestDataValues = {};
@@ -135,26 +155,34 @@ export default function App() {
     });
     const data = await response.json();
     data.reasonsForRejection = [];
+    const promptReasons = [];
     if (data["credit_score_check"].value === 1)
     {
       data.reasonsForRejection.push("Credit Score");
+      promptReasons.push("credit");
     }
     if (data["ltv_check"].value === 1)
     {
       data.reasonsForRejection.push("Loan-to-Value Ratio");
-    }
-    if (data["dti_43_check"].value === 1)
-    {
-      data.reasonsForRejection.push("Debt-to-Income");
+      promptReasons.push("ltv");
     }
     if (data["dti_36_check"].value === 1)
     {
       data.reasonsForRejection.push("Debt-to-Income");
+      promptReasons.push("dti_36");
+    }
+    else if (data["dti_43_check"].value === 1)
+    {
+      data.reasonsForRejection.push("Debt-to-Income");
+      promptReasons.push("dti_43");
     }
     if (data["fedti_check"].value === 1)
     {
       data.reasonsForRejection.push("Front-End Debt-to-Income");
+      promptReasons.push("fedt");
     }
+    data.aiSuggestion = "Loading...";
+    fetchAiSuggestion(promptReasons);
     setResponseData(data);
     setLoading(false);
   }
@@ -269,6 +297,9 @@ export default function App() {
                 {responseData.approved.value === "N" && <View>
                   <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Reason{responseData.reasonsForRejection.length === 1 ? "" : "s"}:</Text>
                   <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.reasonsForRejection.join(", ")}</Text>
+                
+                  <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>AI Suggestion:</Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 30 }} className={"text-right mb-8 "}>{responseData.aiSuggestion}</Text>
                 </View> }      
 
                 <Text style={{ fontFamily: "Inter_700Bold", fontSize: 30 }}>Loan-To-Value:</Text>
