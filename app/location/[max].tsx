@@ -7,25 +7,31 @@ import { Callout } from "react-native-maps";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import LottieView from "lottie-react-native";
+import { useLocalSearchParams } from "expo-router";
 
 import * as Location from "expo-location";
-import BackButton from "../components/BackButton";
-
-const url =
-  "https://zillow69.p.rapidapi.com/search?polygon=-71.1213684%2042.4239634%2C-71.0873795%2042.4252305%2C-71.0863495%2042.4090091%2C-71.1182785%2042.4072347%2C-71.1210251%2042.4229496%2C-71.1213684%2042.4239634&status_type=ForSale&home_type=Houses";
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "15071c717cmsh5696054e89a3a41p10dbd7jsn037e3fe1f9e5",
-    "X-RapidAPI-Host": "zillow69.p.rapidapi.com",
-  },
-};
+import BackButton from "../../components/BackButton";
 
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [respData, setRespData] = useState(null);
   const [markers, setMarkers] = useState([]);
+
+  const local = useLocalSearchParams();
+  console.log(local.max);
+
+  const url = `https://zillow69.p.rapidapi.com/search?polygon=-71.1213684%2042.4239634%2C-71.0873795%2042.4252305%2C-71.0863495%2042.4090091%2C-71.1182785%2042.4072347%2C-71.1210251%2042.4229496%2C-71.1213684%2042.4239634&status_type=ForSale&home_type=Houses&maxPrice=${
+    local.max || "180000"
+  }`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "15071c717cmsh5696054e89a3a41p10dbd7jsn037e3fe1f9e5",
+      "X-RapidAPI-Host": "zillow69.p.rapidapi.com",
+    },
+  };
 
   useEffect(() => {
     (async () => {
@@ -67,7 +73,7 @@ export default function App() {
           const price = house.zestimate;
           const image = house.imgSrc;
 
-          if (lat && long && url && price) {
+          if (lat && long && url && price && price < parseInt(local.max)) {
             const obj = {
               latitude: lat,
               longitude: long,
@@ -78,7 +84,6 @@ export default function App() {
                 "https://photos.zillowstatic.com/fp/91be7ca88283edf5ffa4628f246d085e-p_e.jpg",
             };
             temp.push(obj);
-            console.log(obj);
           }
         });
 
@@ -94,7 +99,6 @@ export default function App() {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
-    console.log(location);
   }
 
   return (
@@ -115,7 +119,7 @@ export default function App() {
               backgroundColor: "fff",
             }}
             // Find more Lottie files at https://lottiefiles.com/featured
-            source={require("../assets/loading.json")}
+            source={require("../../assets/loading.json")}
             loop
           />
         </View>
