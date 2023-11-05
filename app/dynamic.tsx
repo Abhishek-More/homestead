@@ -94,6 +94,13 @@ export default function App() {
               }}
             />
           </View>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
+          <Text>DYNAMIC</Text>
         </SafeAreaView>
         <StatusBar style="auto" />
       </SafeAreaProvider>
