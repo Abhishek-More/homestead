@@ -4,7 +4,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
 import { useFonts, Inter_700Bold } from "@expo-google-fonts/inter";
+import { Dimensions } from "react-native";
 import { Link } from "expo-router";
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from "react-native-chart-kit";
 
 export default function App() {
   let [fontsLoaded, fontError] = useFonts({
@@ -29,25 +38,59 @@ export default function App() {
           >
             Trends
           </Text>
-          <View className="absolute bottom-32 w-full">
-            <Link
-              className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
-              href="/static"
-            ></Link>
-            <Pressable
-              className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
-              onPress={runner}
-            >
-              <Text className="text-center text-black">
-                View Prebuilt Analytics
-              </Text>
-            </Pressable>
-            <Pressable
-              className="py-4 px-3 border mx-8 mt-4 border-[#6C63FF] rounded-md bg-[#6C63FF]"
-              onPress={runner}
-            >
-              <Text className="text-white text-center">Enter Metrics</Text>
-            </Pressable>
+
+          <View>
+            <Text>Bezier Line Chart</Text>
+            <LineChart
+              data={{
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                ],
+                datasets: [
+                  {
+                    data: [
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                    ],
+                  },
+                ],
+              }}
+              width={Dimensions.get("window").width} // from react-native
+              height={220}
+              yAxisLabel="$"
+              yAxisSuffix="k"
+              yAxisInterval={1} // optional, defaults to 1
+              chartConfig={{
+                backgroundColor: "#e26a00",
+                backgroundGradientFrom: "#fb8c00",
+                backgroundGradientTo: "#ffa726",
+                decimalPlaces: 2, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+                propsForDots: {
+                  r: "6",
+                  strokeWidth: "2",
+                  stroke: "#ffa726",
+                },
+              }}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
           </View>
         </SafeAreaView>
         <StatusBar style="auto" />
