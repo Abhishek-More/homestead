@@ -48,10 +48,10 @@ export default function SliderBox(props: Props) {
             <View className={"top-[-2px] " + (props.isOpen ? "rotate-90" : "")}>
               <Icon name="caret-right" size={28} color="#000" />
             </View>
-            <Text style={{ fontFamily: props.isOpen ? "Inter_700Bold" : "Inter_400Regular", fontSize: 20 }} className="ml-2">{props.name}</Text>
+            <Text style={{ fontFamily: props.isOpen ? "Inter_700Bold" : "Inter_400Regular", fontSize: 18 }} className="ml-2">{props.name}</Text>
           </View>
           <View>
-            <Text style={{ fontFamily: props.isOpen ? "Inter_700Bold" : "Inter_400Regular", fontSize: 20 }}>{!props.isOpen && sliderValueString}</Text>
+            <Text style={{ fontFamily: props.isOpen ? "Inter_700Bold" : "Inter_400Regular", fontSize: 18 }}>{!props.isOpen && sliderValueString}</Text>
           </View>
         </View>
       </Pressable>

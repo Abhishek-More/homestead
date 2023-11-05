@@ -58,8 +58,7 @@ export default function App() {
       },
       body: JSON.stringify({"value": requestData}),
     });
-    // const data = await response.json();
-    const data = await response.text();
+    const data = await response.json();
     setResponseData(data);
     setLoading(false);
   }
@@ -87,7 +86,7 @@ export default function App() {
       dollars: true,
     },
     "Student Loan Payments": {
-      parameter_name: "student_loan_payment",
+      parameter_name: "student_loan_payments",
       max_value: 10000,
       min_value: 0,
       step: 100,
