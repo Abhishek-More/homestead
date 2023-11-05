@@ -22,7 +22,7 @@ const METRICS = {
     max_value: 100000,
     min_value: 0,
     step: 100,
-    default_value: 6819,
+    default_value: 9203,
     dollars: true,
   },
   "Credit Card Payment": {
@@ -30,7 +30,7 @@ const METRICS = {
     max_value: 100000,
     min_value: 0,
     step: 100,
-    default_value: 257,
+    default_value: 475,
     dollars: true,
   },
   "Car Payment": {
@@ -38,7 +38,7 @@ const METRICS = {
     max_value: 10000,
     min_value: 0,
     step: 100,
-    default_value: 495,
+    default_value: 433,
     dollars: true,
   },
   "Student Loan Payments": {
@@ -46,7 +46,7 @@ const METRICS = {
     max_value: 10000,
     min_value: 0,
     step: 100,
-    default_value: 258,
+    default_value: 342,
     dollars: true,
   },
   "Appraised Value": {
@@ -54,7 +54,7 @@ const METRICS = {
     max_value: 10000000,
     min_value: 0,
     step: 1000,
-    default_value: 346246,
+    default_value: 236893,
     dollars: true,
   },
   "Down Payment": {
@@ -62,7 +62,7 @@ const METRICS = {
     max_value: 1000000,
     min_value: 100,
     step: 1000,
-    default_value: 72712,
+    default_value: 42640,
     dollars: true,
   },
   "Loan Amount": {
@@ -70,7 +70,7 @@ const METRICS = {
     max_value: 1000000,
     min_value: 100,
     step: 1000,
-    default_value: 273534,
+    default_value: 194252,
     dollars: true,
   },
   "Monthly Mortgage Payment": {
@@ -78,7 +78,7 @@ const METRICS = {
     max_value: 10000,
     min_value: 10,
     step: 100,
-    default_value: 1306,
+    default_value: 1900,
     dollars: true,
   },
   "Credit Score": {
@@ -86,7 +86,7 @@ const METRICS = {
     max_value: 850,
     min_value: 300,
     step: 1,
-    default_value: 777,
+    default_value: 699,
     dollars: false,
   },
 };
@@ -250,10 +250,21 @@ export default function App() {
     };
     setResponseData(data);
     console.log(requestDataValues);
+    // Use a regular expression to extract the number
+    const regex = /(\d+(\.\d+)?)/;
+    const match = data.suggestion.match(regex);
+
+    // Check if a number is found
+    if (match) {
+      const number = parseInt(match[0]);
+      console.log("Extracted number:", number);
+      router.push(`/location/${number}`);
+    } else {
+      router.push(`/location/${metricValues["Appraised Value"]}`);
+      console.log("No number found in the input string.");
+    }
     console.log(data);
     setLoading(false);
-
-    // router.push(`/location/200000`);
   }
 
   const radio_props = [

@@ -166,12 +166,6 @@ export default function App() {
           </View>
 
           <View className="absolute bottom-32 w-full">
-            <Link
-              className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
-              href="/location/300000"
-            >
-              <Text className="text-center text-black">Location</Text>
-            </Link>
             <Pressable
               className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
               onPress={() => goToStatic()}
