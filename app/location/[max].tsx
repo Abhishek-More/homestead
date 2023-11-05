@@ -147,7 +147,7 @@ export default function App() {
               description={"FOR SALE"}
             >
               <Image
-                style={{ height: 50, width: 50 }}
+                style={{ height: 50, width: 50, borderRadius: 8 }}
                 source={{ uri: marker.image }}
               />
 
