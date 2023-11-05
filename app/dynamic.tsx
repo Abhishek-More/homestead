@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Pressable, SafeAreaView, Text, View } from "react-native";
+import { Button, Pressable, SafeAreaView, Text, View, ScrollView } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
@@ -15,8 +15,12 @@ import {
   StackedBarChart,
 } from "react-native-chart-kit";
 import BackButton from "../components/BackButton";
+import SliderBox from "../components/SliderBox";
+import { useState } from "react";
 
 export default function App() {
+  const [openSliderIndex, setOpenSliderIndex] = useState(-1);
+
   let [fontsLoaded, fontError] = useFonts({
     Inter_700Bold,
   });
@@ -29,8 +33,21 @@ export default function App() {
     console.log("HI");
   }
 
+  const METRICS = [
+    "Gross Monthly Income",
+    "Credit Card Payment",
+    "Car Payment",
+    "Student Loan Payments",
+    "Appraised Value",
+    "Down Payment",
+    "Loan Amount",
+    "Monthly Mortgage Payment",
+    "Credit Score",
+  ];
+
+
   return (
-    <View className="h-screen">
+    <ScrollView className="h-screen">
       <SafeAreaProvider>
         <SafeAreaView className="h-full mx-4">
           <BackButton />
@@ -100,10 +117,26 @@ export default function App() {
           <Text>DYNAMIC</Text>
           <Text>DYNAMIC</Text>
           <Text>DYNAMIC</Text>
-          <Text>DYNAMIC</Text>
+          <Text className="mb-10">DYNAMIC {openSliderIndex}</Text>
+
+          {METRICS.map((metric, index) => {
+              return (
+                <SliderBox
+                key={index}
+                name={metric}
+                isOpen={openSliderIndex === index}
+                onPress={() => setOpenSliderIndex(index === openSliderIndex ? -1 : index)}
+                maxValue={100}
+                minValue={0}
+                step={1}
+                onValueChange={() => {}}
+                />
+              )
+            })}
+
         </SafeAreaView>
         <StatusBar style="auto" />
       </SafeAreaProvider>
-    </View>
+    </ScrollView>
   );
 }
