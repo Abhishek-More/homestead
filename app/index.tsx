@@ -41,11 +41,9 @@ export default function App() {
           <View className="absolute bottom-32 w-full">
             <Link
               className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
-              href="/static"
+              href="/location"
             >
-              <Text className="text-center text-black">
-                View Prebuilt Analytics
-              </Text>
+              <Text className="text-center text-black">Location</Text>
             </Link>
             <Pressable
               className="mt-12 py-4 px-3 border-2 mx-8 border-[#6C63FF] rounded-md bg-white"
