@@ -1,22 +1,34 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Pressable, SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Image } from "expo-image";
+import { Dimensions } from "react-native";
 
 import { useFonts, Inter_700Bold } from "@expo-google-fonts/inter";
-import { Dimensions } from "react-native";
-import { Link } from "expo-router";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
 import BackButton from "../components/BackButton";
+import { BarChart } from "react-native-chart-kit";
+import Icon from "react-native-vector-icons/AntDesign";
 
 export default function App() {
+  const rejectionsData = {
+    labels: ["DTI > 36", "Credit", "LTV", "FEDTI", "DTI > 43"],
+    datasets: [
+      {
+        data: [16.42, 47.95, 74.5, 74.83, 77.69],
+      },
+    ],
+  };
+
+  const chartConfig = {
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#FFFFFF",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `#000000`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
+  };
+
   let [fontsLoaded, fontError] = useFonts({
     Inter_700Bold,
   });
@@ -36,62 +48,48 @@ export default function App() {
           <BackButton />
           <Text
             style={{ fontFamily: "Inter_700Bold", fontSize: 40 }}
-            className="font-bold mt-4"
+            className="font-bold mt-8 mb-6"
           >
             Trends
           </Text>
 
-          <View>
-            <Text>Bezier Line Chart</Text>
-            <LineChart
-              data={{
-                labels: [
-                  "January",
-                  "February",
-                  "March",
-                  "April",
-                  "May",
-                  "June",
-                ],
-                datasets: [
-                  {
-                    data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                    ],
-                  },
-                ],
-              }}
-              width={Dimensions.get("window").width} // from react-native
-              height={220}
-              yAxisLabel="$"
-              yAxisSuffix="k"
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: "#ffa726",
-                },
-              }}
-              bezier
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
+          <View className="mt-4 flex flex-row justify-between w-full gap-2">
+            <View className="flex flex-row items-center justify-between p-4 border border-black rounded-md w-6/12">
+              <View>
+                <Text>Accepted</Text>
+                <Text className="text-[20px] flex text-black">1600 apps</Text>
+              </View>
+              <View className="p-2 rounded-full bg-green-500">
+                <Icon name="arrowup" size={20} color="#FFF" />
+              </View>
+            </View>
+            <View className="flex flex-row items-center justify-between p-4 border border-black rounded-md w-6/12">
+              <View>
+                <Text>Rejected</Text>
+                <Text className="text-[20px] flex text-black">8400 apps</Text>
+              </View>
+              <View className="p-2 rounded-full bg-red-500">
+                <Icon name="arrowdown" size={20} color="#FFF" />
+              </View>
+            </View>
+          </View>
+          <Text
+            style={{ fontFamily: "Inter_700Bold", fontSize: 20 }}
+            className="font-bold my-4"
+          >
+            % Rejections
+          </Text>
+
+          <View className="flex justify-center w-full">
+            <BarChart
+              data={rejectionsData}
+              width={Dimensions.get("window").width - 20}
+              height={280}
+              yAxisLabel=""
+              yAxisSuffix="%"
+              chartConfig={chartConfig}
+              verticalLabelRotation={30}
+              fromZero={true}
             />
           </View>
         </SafeAreaView>
