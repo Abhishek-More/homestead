@@ -13,6 +13,7 @@ type Props = {
   maxValue: number;
   minValue: number;
   step: number;
+  defaultValue: number;
   lessThanGreaterThan: boolean;
   dollars: boolean;
 };
@@ -24,7 +25,7 @@ import { useState } from "react";
 
 export default function SliderBox(props: Props) {
 
-  const [sliderValue, setSliderValue] = useState(props.minValue);
+  const [sliderValue, setSliderValue] = useState(props.defaultValue);
 
   let [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
