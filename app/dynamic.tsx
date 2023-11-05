@@ -215,7 +215,11 @@ export default function App() {
                   maxValue={metric.max_value}
                   minValue={metric.min_value}
                   step={metric.step}
-                  onValueChange={(value) => {setMetricValues({...metricValues, [metric.parameter_name]: value})}}
+                  onValueChange={(value) => {
+                    const newMetricValues = {...metricValues};
+                    newMetricValues[metricName] = value;
+                    setMetricValues(newMetricValues);
+                  }}
                   setScrollEnabled={setScrollEnabled}
                   lessThanGreaterThan={metric.dollars}
                   dollars={metric.dollars}
